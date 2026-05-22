@@ -1,4 +1,4 @@
-package com.raizes.raizesBackend;
+package com.raizes.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

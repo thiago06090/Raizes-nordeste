@@ -1,4 +1,4 @@
-package com.raizes.raizesBackend.domain.model.repository;
+package com.raizes.backend.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
