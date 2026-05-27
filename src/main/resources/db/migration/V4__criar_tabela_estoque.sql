@@ -1,5 +1,5 @@
 CREATE TABLE estoque (
-                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         id BIGSERIAL PRIMARY KEY,
                          unidade_id BIGINT NOT NULL,
                          produto_id BIGINT NOT NULL,
                          quantidade INT NOT NULL DEFAULT 0,

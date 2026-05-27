@@ -1,5 +1,5 @@
 CREATE TABLE itens_pedido (
-                              id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                              id BIGSERIAL PRIMARY KEY,
                               pedido_id BIGINT NOT NULL,
                               produto_id BIGINT NOT NULL,
                               quantidade INT NOT NULL,

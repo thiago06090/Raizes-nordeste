@@ -1,5 +1,5 @@
 CREATE TABLE pagamentos (
-                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                            id BIGSERIAL PRIMARY KEY,
                             pedido_id BIGINT NOT NULL,
                             status VARCHAR(20) NOT NULL,
                             forma_pagamento VARCHAR(20) NOT NULL,

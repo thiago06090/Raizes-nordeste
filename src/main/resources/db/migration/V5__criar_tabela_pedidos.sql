@@ -1,5 +1,5 @@
 CREATE TABLE pedidos (
-                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         id BIGSERIAL PRIMARY KEY,
                          cliente_id BIGINT NOT NULL,
                          unidade_id BIGINT NOT NULL,
                          canal_pedido VARCHAR(20) NOT NULL,
