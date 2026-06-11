@@ -47,6 +47,13 @@ public class AuthService {
         usuario.setPerfil(Perfil.CLIENTE);
         usuario.setConsentimentoLgpd(request.getConsentimentoLgpd());
 
+        // se perfil não informado, padrão é CLIENTE
+        if (request.getPerfil() != null) {
+            usuario.setPerfil(request.getPerfil());
+        } else {
+            usuario.setPerfil(Perfil.CLIENTE);
+        }
+
         usuarioRepository.save(usuario);
 
         // cria pontos de fidelidade zerados

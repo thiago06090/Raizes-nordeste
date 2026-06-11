@@ -1,5 +1,6 @@
 package com.raizes.backend.api.dto;
 
+import com.raizes.backend.domain.model.Usuario.Perfil;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,5 +20,8 @@ public class RegisterRequest {
 
     @NotNull(message = "Consentimento LGPD obrigatório")
     private Boolean consentimentoLgpd;
+
+    // Se não informado, padrão é CLIENTE
+    private Perfil perfil;
 
 }
