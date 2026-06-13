@@ -24,6 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final AuditoriaService auditoriaService;
 
     public AuthResponse registrar(RegisterRequest request) {
 
@@ -56,6 +57,14 @@ public class AuthService {
 
         usuarioRepository.save(usuario);
 
+        auditoriaService.registrar(
+                "USUARIO_CADASTRADO",
+                usuario.getEmail(),
+                "Novo usuário cadastrado no sistema",
+                "perfil=" + usuario.getPerfil().name()
+        );
+
+
         // cria pontos de fidelidade zerados
         PontosFidelidade pontos = new PontosFidelidade();
         pontos.setUsuario(usuario);
@@ -75,6 +84,13 @@ public class AuthService {
                         request.getEmail(),
                         request.getSenha()
                 )
+        );
+
+        auditoriaService.registrar(
+                "LOGIN",
+                request.getEmail(),
+                "Usuário realizou login no sistema",
+                null
         );
 
         // busca o usuário no banco

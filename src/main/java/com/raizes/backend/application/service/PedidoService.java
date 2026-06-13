@@ -31,6 +31,7 @@ public class PedidoService {
     private final PagamentoRepository pagamentoRepository;
     private final PontosFidelidadeRepository pontosRepository;
     private final PaymentMockService paymentMockService;
+    private final AuditoriaService auditoriaService;
 
     @Transactional
     public PedidoResponse criarPedido(
@@ -121,12 +122,31 @@ public class PedidoService {
         pedido.setItens(itens);
         pedidoRepository.save(pedido);
 
+        auditoriaService.registrar(
+                "PEDIDO_CRIADO",
+                emailCliente,
+                "Pedido criado com sucesso",
+                "pedidoId=" + pedido.getId()
+                        + " | canal=" + request.getCanalPedido()
+                        + " | total=R$" + total
+        );
+
+
         // processa pagamento mock
         StatusPagamento statusPagamento = paymentMockService
                 .processarPagamento(
                         pedido.getId(),
                         request.getFormaPagamento()
                 );
+
+        auditoriaService.registrar(
+                "PAGAMENTO_PROCESSADO",
+                emailCliente,
+                "Pagamento processado via mock",
+                "pedidoId=" + pedido.getId()
+                        + " | status=" + statusPagamento.name()
+                        + " | forma=" + request.getFormaPagamento()
+        );
 
         // salva o pagamento
         Pagamento pagamento = new Pagamento();
@@ -146,9 +166,19 @@ public class PedidoService {
             devolverEstoque(itens, unidade);
         }
         pedidoRepository.save(pedido);
+        auditoriaService.registrar(
+                "STATUS_PEDIDO_ATUALIZADO",
+                emailCliente,
+                "Status do pedido atualizado",
+                "pedidoId=" + pedido.getId()
+                        + " | novoStatus=" + pedido.getStatus().name()
+        );
+
 
         return converterParaResponse(pedido, statusPagamento);
     }
+
+
 
     public List<PedidoResponse> listarPedidos(
             CanalPedido canal, StatusPedido status) {
@@ -187,9 +217,18 @@ public class PedidoService {
                 .orElseThrow(() -> new RuntimeException(
                         "Pedido não encontrado"
                 ));
-
+        StatusPedido statusAnterior = pedido.getStatus();
         pedido.setStatus(novoStatus);
         pedidoRepository.save(pedido);
+
+        auditoriaService.registrar(
+                "STATUS_PEDIDO_ATUALIZADO",
+                "sistema",
+                "Status do pedido atualizado manualmente",
+                "pedidoId=" + id
+                        + " | de=" + statusAnterior.name()
+                        + " | para=" + novoStatus.name()
+        );
 
         return converterParaResponse(pedido, null);
     }
