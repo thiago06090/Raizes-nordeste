@@ -402,6 +402,8 @@ raizes-postman-collection.json
 | T10 | Pedido sem itens | ❌ Negativo |
 | T11 | Consultar saldo de pontos | ✅ Positivo |
 | T12 | Resgatar pontos insuficientes | ❌ Negativo |
+| T13 | Verificar auditoria de pedido criado | ✅ Positivo
+| T14 | Verificar auditoria de mudança de status | ✅ Positivo
 
 > 💡 **Dica:** Execute sempre o T01 primeiro — ele faz o
 > login e salva o token automaticamente para os demais testes!
