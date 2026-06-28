@@ -643,6 +643,115 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Auditoria",
+      "item": [
+        {
+          "name": "T13 — Verificar auditoria de pedido criado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Retorna ao menos 1 registro de auditoria\", () => {\r",
+                  "    var response = pm.response.json();\r",
+                  "    pm.expect(response).to.be.an(\"array\");\r",
+                  "    pm.expect(response.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Registro contém a ação correta\", () => {\r",
+                  "    var response = pm.response.json();\r",
+                  "    pm.expect(response[0].acao).to.equal(\"PEDIDO_CRIADO\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Registro contém dados do pedido criado\", () => {\r",
+                  "    var response = pm.response.json();\r",
+                  "    pm.expect(response[0].dadosExtras).to.include(\"pedidoId\");\r",
+                  "    pm.expect(response[0].dadosExtras).to.include(\"canal\");\r",
+                  "    pm.expect(response[0].usuarioEmail).to.not.be.empty;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auditoria/acao/PEDIDO_CRIADO",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auditoria",
+                "acao",
+                "PEDIDO_CRIADO"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "T14 — Verificar auditoria de mudança de status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Retorna ao menos 1 registro de auditoria\", () => {\r",
+                  "    var response = pm.response.json();\r",
+                  "    pm.expect(response).to.be.an(\"array\");\r",
+                  "    pm.expect(response.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Registro contém a ação correta\", () => {\r",
+                  "    var response = pm.response.json();\r",
+                  "    pm.expect(response[0].acao).to.equal(\"STATUS_PEDIDO_ATUALIZADO\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Registro evidencia o status anterior e o novo\", () => {\r",
+                  "    var response = pm.response.json();\r",
+                  "    pm.expect(response[0].dadosExtras).to.include(\"pedidoId\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auditoria/acao/STATUS_PEDIDO_ATUALIZADO",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auditoria",
+                "acao",
+                "STATUS_PEDIDO_ATUALIZADO"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
